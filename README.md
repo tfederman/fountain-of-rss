@@ -2,7 +2,7 @@ To test the scale of an RSS reader project I wanted a very large list of RSS fee
 
 Because Bluesky is so open and friendly to data analysis I decided to source links by reading all posts from its firehose. The code in this repo finds all links included in posts, retrieves those pages, and looks in the meta tags for the presence of an RSS href. If one is found, it's fetched and its metadata is stored in the output TSV file.
 
-I turned this on for long enough to collect about 15,000 feeds, which are in feeds.tsv. The entries in the file were all current as of April 2025.
+I turned this on for long enough to collect about 16,000 feeds, which are in feeds.tsv. The entries in the file were all current as of April 2025, at which time about 15,000 of them were live with at least one article.
 
 I use [websocat](https://github.com/vi/websocat) to read from the [Bluesky Jetstream](https://github.com/bluesky-social/jetstream) and together with [jq](https://github.com/jqlang/jq) it provides the "fountain" of URLs without having to write much code. The feeds are parsed with [feedparser](https://github.com/kurtmckee/feedparser).
 
@@ -15,7 +15,7 @@ websocat "wss://jetstream2.us-east.bsky.network/subscribe?wantedCollections=app.
     | [(.commit.record.facets
         | select(length > 0)[]
         | select(.features.[]."$type" | contains("#link")).features[].uri)][]' \
-    | python -u rss-list.py feeds.tsv
+    | python -u find-feeds.py feeds.tsv
 ```
 
 The Python program input is one URL per line and can come from any source.
