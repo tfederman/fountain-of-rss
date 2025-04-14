@@ -7,7 +7,7 @@ import asyncio
 import warnings
 from datetime import datetime
 from urllib.parse import urlparse
-from time import mktime
+from time import mktime, struct_time
 
 import aiohttp
 import aiofiles
@@ -100,7 +100,7 @@ def rss_metadata(rss, text, status_code):
         return datetime.fromtimestamp(mktime(ts)).isoformat()
 
     if meta["updated"]:
-        if isinstance(getattr(feed.feed, "updated_parsed", None), time.struct_time):
+        if isinstance(getattr(feed.feed, "updated_parsed", None), struct_time):
             meta["updated_isoformat"] = isoformat(feed.feed.updated_parsed)
             try:
                 meta["updated"] = int(mktime(feed.feed.updated_parsed))
@@ -108,7 +108,7 @@ def rss_metadata(rss, text, status_code):
                 pass
 
     if feed.entries:
-        if isinstance(getattr(feed.entries[0], "published_parsed", None), time.struct_time):
+        if isinstance(getattr(feed.entries[0], "published_parsed", None), struct_time):
             meta["latest_article_published_isoformat"] = isoformat(feed.entries[0].published_parsed)
             try:
                 meta["latest_article_published"] = int(mktime(feed.entries[0].published_parsed))

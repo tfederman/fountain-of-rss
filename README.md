@@ -6,6 +6,8 @@ I turned this on for long enough to collect about 16,000 feeds, which are in fee
 
 I use [websocat](https://github.com/vi/websocat) to read from the [Bluesky Jetstream](https://github.com/bluesky-social/jetstream) and together with [jq](https://github.com/jqlang/jq) it provides the "fountain" of URLs without having to write much code. The feeds are parsed with [feedparser](https://github.com/kurtmckee/feedparser).
 
+The necessary Python packages to install are aiohttp, aiofiles, feedparser, and beautifulsoup4.
+
 ## Usage:
 
 ```
@@ -76,6 +78,8 @@ This only attempts one lookup per domain, which means that it does not handle th
 
 Many sites produce a distinct RSS feed of the comments of each article they publish. This code attempts to exclude those. When an article's meta tags specify more than one RSS feed, only the one with the shortest href is chosen. This prefers `https://site.com/rss` over `https://site.com/article-title/rss`. But it's not a perfect heuristic. Sometimes the only feed present in the meta tags is a comments feed, and it gets chosen. Other times, there are multiple legit feeds in the meta tags and only one is chosen.
 
+Any errors encountered fetching a link (HTML) are silently ignored, whereas errors encountered fetching a feed are logged to the exception_class and exception_text columns.
+
 There's no automated mechanism for re-establishing the Jetstream connection when it goes away, the command needs to be restarted.
 
-Note there will be a considerable amount of NFSW content in the feeds that are output.
+Note that there will be a considerable amount of NFSW content in the feeds that are output.
