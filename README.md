@@ -42,6 +42,7 @@ The output TSV file has the following fields:
 * exception class, if unsuccessful fetch
 * exception text, if unsuccessful fetch
 
+Updated and published timestamp fields may be null where parsing is not possible.
 
 This data set loads cleanly into Postgres with this table structure and load statement:
 
