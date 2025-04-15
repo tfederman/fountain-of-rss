@@ -2,7 +2,7 @@ To test the scalability of an RSS reader project I wanted a very large list of R
 
 Because Bluesky is so open and friendly to data analysis I decided to source links by reading all posts from its firehose. The code in this repo finds all links included in posts, retrieves those pages, and looks in the meta tags for the presence of an RSS href. If one is found, it's fetched and its metadata is stored in the output TSV file.
 
-I turned this on long enough to collect about 22,000 feeds, which are in feeds.tsv. The entries in the file are current as of April 2025, at which time 20,000 were live with at least one article and 16,000 had an article published within the last six weeks.
+I turned this on long enough to collect about 23,000 feeds, which are in feeds.tsv. The entries in the file are current as of April 2025, at which time 21,000 were live with at least one article and 18,000 had an article published within the last six weeks.
 
 I use [websocat](https://github.com/vi/websocat) to read from the [Bluesky Jetstream](https://github.com/bluesky-social/jetstream) and together with [jq](https://github.com/jqlang/jq) it provides the "fountain" of URLs without having to write much code. The feeds are parsed with [feedparser](https://github.com/kurtmckee/feedparser).
 
@@ -24,23 +24,23 @@ The Python program input is one URL per line and can come from any source.
 
 The output TSV file has the following fields:
 
-* RSS href
-* language
-* title
-* subtitle
-* site href
-* tags (json list) (first 32 only)
-* update period
-* update frequency
-* feed updated (seconds)
-* feed updated (timestamp)
-* latest article published (seconds)
-* latest article published (timestamp)
-* number of entries fetched
-* HTTP status code of fetch
-* timestamp of fetch
-* exception class, if unsuccessful fetch
-* exception text, if unsuccessful fetch
+1. RSS href
+1. language
+1. title
+1. subtitle
+1. site href
+1. tags (json list) (first 32 only)
+1. update period
+1. update frequency
+1. feed updated (seconds)
+1. feed updated (timestamp)
+1. latest article published (seconds)
+1. latest article published (timestamp)
+1. number of entries fetched
+1. HTTP status code of fetch
+1. timestamp of fetch
+1. exception class, if unsuccessful fetch
+1. exception text, if unsuccessful fetch
 
 Feed updated and last article published timestamp fields may be null where parsing is not possible.
 
