@@ -2,7 +2,7 @@ To test the scalability of an RSS reader project I wanted a very large list of R
 
 Because Bluesky is so open and friendly to data analysis I decided to source links by reading all posts from its firehose. The code in this repo finds all links included in posts, retrieves those pages, and looks in the meta tags for the presence of an RSS href. If one is found, it's fetched and its metadata is stored in the output TSV file.
 
-I turned this on long enough to collect about 23,000 feeds, which are in feeds.tsv. The entries in the file are current as of April 2025, at which time 21,000 were live with at least one article and 18,000 had an article published within the last six weeks.
+I turned this on long enough to collect about 29,000 feeds, which are in feeds.tsv. The entries in the file are current as of April 2025, at which time 26,000 were live with at least one article and 22,000 had an article published within the last six weeks.
 
 I use [websocat](https://github.com/vi/websocat) to read from the [Bluesky Jetstream](https://github.com/bluesky-social/jetstream) and together with [jq](https://github.com/jqlang/jq) it provides the "fountain" of URLs without having to write much code. The feeds are parsed with [feedparser](https://github.com/kurtmckee/feedparser).
 

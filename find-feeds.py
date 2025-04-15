@@ -64,7 +64,7 @@ def get_rss_link(soup, url):
 
 
 def first_line(val):
-    return (val or "").split("\n")[0].replace("\t", " ").strip()
+    return (val or "").split("\n")[0].replace("\t", " ").replace("\r", " ").strip()
 
 
 def rss_metadata(rss, text, status_code):
@@ -114,10 +114,10 @@ def rss_metadata(rss, text, status_code):
                 meta["latest_article_published"] = int(mktime(feed.entries[0].published_parsed))
             except:
                 pass
+
         meta["entry_count"] = len(feed.entries)
 
     return [rss] + [meta.get(field) for field in CONTENT_FIELDS] + [now, None, None]
-
 
 
 async def get_url(session, url, allowed_content_types):
@@ -148,7 +148,6 @@ async def get_rss(session, url):
                 return
         except Exception as e:
             return
-        
 
         try:
             text, status_code = await get_url(session, rss, CONTENT_TYPES_RSS)
