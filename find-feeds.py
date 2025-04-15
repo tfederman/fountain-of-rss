@@ -38,6 +38,19 @@ CONTENT_TYPES_RSS = [
     "xml",
 ]
 
+COMMENT_FEED_TITLE_PREFIXES = [
+    "comments on:",
+    "comentarios en:",
+    "commentaires sur",
+    "reacties op:",
+    "komente te:",
+    "kommentare zu:",
+    "comentários sobre:",
+    "kommentarer til:",
+    "kommentarer på:",
+]
+
+
 class InvalidContentType(Exception):
     pass
 
@@ -82,6 +95,9 @@ def rss_metadata(rss, text, status_code):
     for field in FEED_FIELDS:
         val = getattr(feed.feed, field, None)
         meta[field] = first_line(val) if isinstance(val, str) else val
+
+    if any(meta["title"].lower().startswith(prefix) for prefix in COMMENT_FEED_TITLE_PREFIXES):
+        return None
 
     try:
         tags = meta["tags"] or []
@@ -152,6 +168,8 @@ async def get_rss(session, url):
         try:
             text, status_code = await get_url(session, rss, CONTENT_TYPES_RSS)
             meta = rss_metadata(rss, text, status_code)
+            if meta is None:
+                return
         except Exception as e:
             now = datetime.now().replace(microsecond=0).isoformat()
             meta = [rss] + [None for _ in CONTENT_FIELDS] + [now, e.__class__.__name__, str(e)]
