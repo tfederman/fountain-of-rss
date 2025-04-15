@@ -1,3 +1,9 @@
+## Fountain of RSS
+
+*A data set of over 20,000 RSS feeds for analysis or finding new sources of articles.*
+
+---------
+
 To test the scalability of an RSS reader project I wanted a very large list of RSS feeds and couldn't find one. A good curated source is [ooh.directory](https://ooh.directory/) but I was looking for a much bigger list, quantity over quality.
 
 Because Bluesky is so open and friendly to data analysis I decided to source links by reading all posts from its firehose. The code in this repo finds all links included in posts, retrieves those pages, and looks in the meta tags for the presence of an RSS href. If one is found, it's fetched and its metadata is stored in the output TSV file.
